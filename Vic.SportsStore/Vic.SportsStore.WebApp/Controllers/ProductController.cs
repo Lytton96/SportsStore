@@ -12,7 +12,10 @@ namespace Vic.SportsStore.WebApp.Controllers
     {
         public IProductsRepository productsRepository { get; set; }
             = new EFProductRepository();
-        public ViewResult List()
+
+        public int PageSize = 3;
+
+        public ViewResult List(int page = 1)
         {
             // M-V-C
 
@@ -20,7 +23,22 @@ namespace Vic.SportsStore.WebApp.Controllers
             // V -> View
             // C -> ProductController
 
-            return View(productsRepository.Products);
+            var model = productsRepository
+                .Products
+                .OrderBy(p => p.ProductID)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize);
+
+            return View(model);
+            
+          //return View(
+          //      repository
+          //      .Products
+          //      .OrderBy(p => p.ProductId)
+          //      .Skip((page - 1) * PageSize)
+          //      .Take(PageSize));
+            
+
         }
 
     }
