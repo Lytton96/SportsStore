@@ -8,6 +8,8 @@ namespace Vic.SportsStore.Domain.Entities
 {
     public class Product
     {
+        public object productId;
+
         public int ProductID { get; set; }
 
         public string Name { get; set; }

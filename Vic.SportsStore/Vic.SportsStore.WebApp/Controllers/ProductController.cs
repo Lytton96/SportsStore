@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Vic.SportsStore.Domain.Abstract;
 using Vic.SportsStore.Domain.Concrete;
+using Vic.SportsStore.WebApp.Models;
 
 namespace Vic.SportsStore.WebApp.Controllers
 {
@@ -15,30 +16,43 @@ namespace Vic.SportsStore.WebApp.Controllers
 
         public int PageSize = 3;
 
+        //public ViewResult List(int page = 1)
+        //{
+        //    // M-V-C
+
+        //    // M -> ProductsRepository.Products
+        //    // V -> View
+        //    // C -> ProductController
+
+        //    var model = productsRepository
+        //        .Products
+        //        .OrderBy(p => p.ProductID)
+        //        .Skip((page - 1) * PageSize)
+        //        .Take(PageSize);
+
+        //    return View(model);
+            
+          
+        //}
+
         public ViewResult List(int page = 1)
         {
-            // M-V-C
+            ProductsListViewModel model = new ProductsListViewModel
+            {
+             Products = productsRepository
+            .Products
+            .OrderBy(p => p.productId)
+            .Skip((page - 1) * PageSize)
+            .Take(PageSize),
 
-            // M -> ProductsRepository.Products
-            // V -> View
-            // C -> ProductController
-
-            var model = productsRepository
-                .Products
-                .OrderBy(p => p.ProductID)
-                .Skip((page - 1) * PageSize)
-                .Take(PageSize);
-
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = productsRepository.Products.Count()
+                }
+            };
             return View(model);
-            
-          //return View(
-          //      repository
-          //      .Products
-          //      .OrderBy(p => p.ProductId)
-          //      .Skip((page - 1) * PageSize)
-          //      .Take(PageSize));
-            
-
         }
 
     }
