@@ -11,7 +11,7 @@ namespace Vic.SportsStore.WebApp.Controllers
 {
     public class ProductController : Controller
     {
-        public IProductsRepository productsRepository { get; set; }
+        public IProductsRepository ProductsRepository { get; set; }
             = new EFProductRepository();
 
         public int PageSize = 3;
@@ -31,29 +31,35 @@ namespace Vic.SportsStore.WebApp.Controllers
         //        .Take(PageSize);
 
         //    return View(model);
-            
-          
+
+
         //}
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
             ProductsListViewModel model = new ProductsListViewModel
             {
-             Products = productsRepository
+                Products = ProductsRepository
             .Products
+            .Where(p => category == null || p.Category == category)
             .OrderBy(p => p.ProductId)
             .Skip((page - 1) * PageSize)
             .Take(PageSize),
-
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = productsRepository.Products.Count()
-                }
+                    TotalItems = ProductsRepository
+                    .Products
+                    .Where(p => category == null || p.Category == category)
+                    .Count()
+                },
+                CurrentCategory = category
             };
+
             return View(model);
         }
+
 
     }
 }
