@@ -41,7 +41,7 @@ namespace Vic.SportsStore.WebApp.Controllers
             {
              Products = productsRepository
             .Products
-            .OrderBy(p => p.productId)
+            .OrderBy(p => p.ProductId)
             .Skip((page - 1) * PageSize)
             .Take(PageSize),
 

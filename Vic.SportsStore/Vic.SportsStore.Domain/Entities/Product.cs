@@ -11,7 +11,7 @@ namespace Vic.SportsStore.Domain.Entities
         public object productId;
 
         public int ProductID { get; set; }
-
+        public object ProductId { get; set; }
         public string Name { get; set; }
 
         public string Description { get; set; }
