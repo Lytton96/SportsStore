@@ -14,8 +14,10 @@ namespace Vic.SportsStore.WebApp.Controllers
     {
         public IProductsRepository ProductsRepository { get; set; }
          = new EFProductRepository();
-        public PartialViewResult Menu()
+        public PartialViewResult Menu(string category = null)
         {
+            ViewBag.SelectedCategory = category;
+
             IEnumerable<string> categories = ProductsRepository
             .Products
             .Select(x => x.Category)
@@ -24,6 +26,7 @@ namespace Vic.SportsStore.WebApp.Controllers
 
             return PartialView(categories);
         }
+
 
     }
 
